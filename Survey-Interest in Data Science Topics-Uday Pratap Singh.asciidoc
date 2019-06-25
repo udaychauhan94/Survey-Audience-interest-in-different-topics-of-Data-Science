@@ -1,0 +1,129 @@
+
+
++*In[1]:*+
+[source, ipython3]
+----
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+----
+
+
++*In[11]:*+
+[source, ipython3]
+----
+df = pd.read_csv('https://cocl.us/datascience_survey_data', index_col=0)
+----
+
+
++*In[12]:*+
+[source, ipython3]
+----
+df.head()
+----
+
+
++*Out[12]:*+
+----
+[cols=",,,",options="header",]
+|======================================================
+| |Very interested |Somewhat interested |Not interested
+|Big Data (Spark / Hadoop) |1332 |729 |127
+|Data Analysis / Statistics |1688 |444 |60
+|Data Journalism |429 |1081 |610
+|Data Visualization |1340 |734 |102
+|Deep Learning |1263 |770 |136
+|======================================================
+----
+
+
++*In[13]:*+
+[source, ipython3]
+----
+result = result.sort_index(axis=1, ascending=False)
+result = df.sort_values('Very interested', ascending=False)
+result
+----
+
+
++*Out[13]:*+
+----
+[cols=",,,",options="header",]
+|======================================================
+| |Very interested |Somewhat interested |Not interested
+|Data Analysis / Statistics |1688 |444 |60
+|Machine Learning |1629 |477 |74
+|Data Visualization |1340 |734 |102
+|Big Data (Spark / Hadoop) |1332 |729 |127
+|Deep Learning |1263 |770 |136
+|Data Journalism |429 |1081 |610
+|======================================================
+----
+
+
++*In[14]:*+
+[source, ipython3]
+----
+#convert into percentage
+
+result = (result/2233 )*100
+result.round(2)
+----
+
+
++*Out[14]:*+
+----
+[cols=",,,",options="header",]
+|======================================================
+| |Very interested |Somewhat interested |Not interested
+|Data Analysis / Statistics |75.59 |19.88 |2.69
+|Machine Learning |72.95 |21.36 |3.31
+|Data Visualization |60.01 |32.87 |4.57
+|Big Data (Spark / Hadoop) |59.65 |32.65 |5.69
+|Deep Learning |56.56 |34.48 |6.09
+|Data Journalism |19.21 |48.41 |27.32
+|======================================================
+----
+
+
++*In[15]:*+
+[source, ipython3]
+----
+ax = result.plot(kind='bar', 
+            figsize=(20, 8), 
+            width=0.8, 
+            color=['#5cb85c', '#5bc0de', '#d9534f'],
+           )
+
+ax.spines['left'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.axes.get_yaxis().set_visible(False)
+ax.tick_params(labelsize=14)
+ax.legend(fontsize=14)
+ax.set_title("Percentage of Respondents' Interest in Data Science Area", fontsize=16)
+for p in ax.patches:
+    ax.annotate(np.round(p.get_height(),decimals=2), 
+                (p.get_x()+p.get_width()/2., p.get_height()), 
+                ha='center', 
+                va='center', 
+                xytext=(0, 10), 
+                textcoords='offset points',
+                fontsize = 14
+               )
+plt.show()
+----
+
+
++*Out[15]:*+
+----
+![png](output_5_0.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
